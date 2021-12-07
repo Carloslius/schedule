@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>axios+vue</title>
+</head>
+
+<body>
+<div id="app">
+    <input type="button" value="自动排班" @click="schedule" />
+    <p v-for="item in data0">
+        {{ item }}
+    </p>
+</div>
+<!-- 官网提供的 axios 在线地址 -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            flag: false,
+            data0: [],
+            msg: "",
+        },
+        methods: {
+            schedule: function () {
+                //用变量保存this对象
+                var that = this;
+                axios
+                    .get("http://localhost:8080/user/2021-12-01/2021-12-31/3")
+                    .then(
+                        function (response) {
+                            console.log(response);
+                            console.log(response.data.data);
+                            that.data0 = response.data.data;
+                        },
+                        function (err) {
+                            console.log(err);
+                        }
+                    );
+            },
+        },
+    });
+</script>
+</body>
+</html>
